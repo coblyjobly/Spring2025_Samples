@@ -48,19 +48,27 @@ namespace Library.eCommerce.Services
         public List<Product?> Products { get; private set; }
 
 
-        public Product AddOrUpdate(Product product)
-        {
-            if(product.Id == 0)
-            {
-                product.Id = LastKey + 1;
-                Products.Add(product);
-            }
+		public Product AddOrUpdate(Product product)
+		{
+			if (product.Id == 0)
+			{
+				product.Id = LastKey + 1;
+				Products.Add(product);
+			}
+			else
+			{
+				var existing = Products.FirstOrDefault(p => p.Id == product.Id);
+				if (existing != null)
+				{
+					Products.Remove(existing);
+					Products.Add(product);
+				}
+			}
 
+			return product;
+		}
 
-            return product;
-        }
-
-        public Product? Delete(int id)
+		public Product? Delete(int id)
         {
             if(id == 0)
             {
