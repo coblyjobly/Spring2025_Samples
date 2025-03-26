@@ -8,19 +8,19 @@ namespace Spring2025_Samples.Models
 {
     public class Product
     {
-        public int Id { get; set; }
+		public int Id { get; set; }
+		public string? Name { get; set; }
+		public decimal Price { get; set; }
+		public int Quantity { get; set; } // Inventory count
+		public string? Display
+		{
+			get
+			{
+				return $"{Id}. {Name} | {Price} | x{Quantity}";
+			}
+		}
 
-        public string? Name { get; set; }
-
-        public string? Display
-        {
-            get
-            {
-                return $"{Id}. {Name}";
-            }
-        }
-
-        public Product()
+		public Product()
         {
             Name = string.Empty;
         }
