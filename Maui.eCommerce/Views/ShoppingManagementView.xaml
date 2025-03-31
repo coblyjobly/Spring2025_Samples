@@ -3,67 +3,78 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.eCommerce.Views.ShoppingManagementView"
              Title="ShoppingManagementView">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/><!--STORE-->
-            <ColumnDefinition/><!--USER SHOPPING CART-->
-        </Grid.ColumnDefinitions>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<!-- Product + Cart -->
+			<RowDefinition Height="Auto"/>
+			<!-- Checkout -->
+		</Grid.RowDefinitions>
 
-        <!--STORE-->
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10*"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <ListView Grid.Row="0"
-                ItemsSource="{Binding Inventory}"
-                SelectedItem="{Binding SelectedItem}"
-             >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="5*"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="{Binding Id}"/>
-                            <Label Grid.Column="1" Text="{Binding Product.Name}"/>
-                            <Label Grid.Column="2" Text="x"/>
-                            <Label Grid.Column="3" Text="{Binding Quantity}"/>
-                                <Button Grid.Column="4" Text="+" Command="{Binding AddCommand}" Clicked="InlineAddClicked"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
+		<Grid Grid.Row="0" ColumnSpacing="10">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<!-- STORE -->
+				<ColumnDefinition/>
+				<!-- CART -->
+			</Grid.ColumnDefinitions>
 
-                </ListView.ItemTemplate>
-            </ListView>
-            <Button Grid.Row="1" Text="+" Clicked="AddToCartClicked"/>
-        </Grid>
+			<!-- STORE -->
+			<Grid Grid.Column="0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="10*"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
 
-        <!--USER SHOPPING CART-->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10*"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <ListView Grid.Row="0"
-                ItemsSource="{Binding ShoppingCart}"
-                SelectedItem="{Binding SelectedCartItem}"
-                >
-                <!--<ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
+				<ListView Grid.Row="0"
+                      ItemsSource="{Binding Inventory}"
+                      SelectedItem="{Binding SelectedItem}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition/>
+										<ColumnDefinition Width="5*"/>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+									<Label Grid.Column="0" Text="{Binding Id}" />
+									<Label Grid.Column="1" Text="{Binding Product.Name}" />
+									<Label Grid.Column="2" Text="x" />
+									<Label Grid.Column="3" Text="{Binding Quantity}" />
+									<Button Grid.Column="4" Text="+" Command="{Binding AddCommand}" Clicked="InlineAddClicked" />
+								</Grid>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
 
-                        </ViewCell>
-                    </DataTemplate>
+				<Button Grid.Row="1" Text="+" Clicked="AddToCartClicked" />
+			</Grid>
 
-                </ListView.ItemTemplate>-->
-            </ListView>
-            <Button Grid.Row="1" Text="-" Clicked="RemoveFromCartClicked"/>
-        </Grid>
-    </Grid>
+			<!-- USER SHOPPING CART -->
+			<Grid Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="10*"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+
+				<ListView Grid.Row="0"
+                      ItemsSource="{Binding ShoppingCart}"
+                      SelectedItem="{Binding SelectedCartItem}" />
+				<Button Grid.Row="1" Text="-" Clicked="RemoveFromCartClicked" />
+			</Grid>
+		</Grid>
+
+		<!-- Checkout Button below both columns -->
+		<Button Grid.Row="1" Grid.ColumnSpan="2"
+            Text="Checkout"
+            BackgroundColor="Green"
+            TextColor="White"
+            Clicked="OnCheckoutClicked"
+            Margin="10" />
+	</Grid>
+
 </ContentPage>
