@@ -35,20 +35,39 @@ namespace Maui.eCommerce.ViewModels
             NotifyPropertyChanged(nameof(Products));
         }
 
-        public ObservableCollection<Item?> Products
-        {
-            get
-            {
-                var filteredList = _svc.Products.Where(p => p?.Product?.Name?.ToLower().Contains(Query?.ToLower() ?? string.Empty) ?? false);
-                return new ObservableCollection<Item?>(filteredList);
-            }
-        }
-
         public Item? Delete()
         {
             var item = _svc.Delete(SelectedProduct?.Id ?? 0);
             NotifyPropertyChanged("Products");
             return item;
         }
-    }
+
+		private string sortBy = "Name";
+		public string SortBy
+		{
+			get => sortBy;
+			set
+			{
+				sortBy = value;
+				NotifyPropertyChanged(nameof(Products));
+			}
+		}
+
+		public ObservableCollection<Item?> Products
+		{
+			get
+			{
+				var filteredList = _svc.Products
+					.Where(p => p?.Product?.Name?.ToLower().Contains(Query?.ToLower() ?? string.Empty) ?? false);
+
+				if (SortBy == "Price")
+					filteredList = filteredList.OrderBy(p => p?.Product?.Price);
+				else
+					filteredList = filteredList.OrderBy(p => p?.Product?.Name);
+
+				return new ObservableCollection<Item?>(filteredList);
+			}
+		}
+
+	}
 }

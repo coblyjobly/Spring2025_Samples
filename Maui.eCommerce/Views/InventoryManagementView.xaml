@@ -14,25 +14,37 @@
             <Entry Text="{Binding Query}" Grid.Column="0"/>
             <Button Text="Search" Grid.Column="1" Clicked="SearchClicked"/>
         </Grid>
-        <ListView
+		<Picker Title="Sort By"
+        SelectedItem="{Binding SortBy}"
+        Margin="10">
+			<Picker.ItemsSource>
+				<x:Array Type="{x:Type x:String}">
+					<x:String>Name</x:String>
+					<x:String>Price</x:String>
+				</x:Array>
+			</Picker.ItemsSource>
+		</Picker>
+
+		<ListView
             ItemsSource="{Binding Path=Products}"
             SelectedItem="{Binding SelectedProduct}"
             >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="10*"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="{Binding Display}"/>
-                            <Button Grid.Column="1" Text="Edit"/>
-                            <Button Grid.Column="2" Text="Delete"/>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
+					<ViewCell>
+						<Grid Padding="5">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="6*"/>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<Label Grid.Column="0" Text="{Binding Product.Name}" VerticalOptions="Center"/>
+							<Button Grid.Column="1" Text="Edit" Clicked="EditClicked" />
+							<Button Grid.Column="2" Text="Delete" Clicked="DeleteClicked" />
+						</Grid>
+					</ViewCell>
+
+				</DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <Button Text="Add" Clicked="AddClicked"/>

@@ -21,7 +21,10 @@ namespace Maui.eCommerce.Views
 			CartItems = new ObservableCollection<Item?>(
 				ShoppingCartService.Current.CartItems.Where(i => i?.Quantity > 0));
 
-			TotalPrice = CartItems.Sum(item => (item?.Quantity ?? 0) * (item?.Product?.Price ?? 0m));
+			decimal subtotal = CartItems.Sum(item => (item?.Quantity ?? 0) * (item?.Product?.Price ?? 0m));
+			decimal tax = subtotal * ShoppingCartService.Current.TaxRate;
+			TotalPrice = subtotal + tax;
+
 
 			BindingContext = this;
 		}

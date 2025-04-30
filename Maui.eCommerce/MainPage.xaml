@@ -3,18 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.eCommerce.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout>
-            <Label
+	<ScrollView>
+		<VerticalStackLayout Padding="20" Spacing="15" VerticalOptions="Center">
+			<Label
                 Text="{Binding Display}"
-                />
-            <Button
-            Text="Inventory Management"
-                Clicked="InventoryClicked"/>
-            <Button
-            Text="Shop"
-                Clicked="ShopClicked"/>
-        </VerticalStackLayout>
-    </ScrollView>
+                FontSize="24"
+                HorizontalOptions="Center" />
+
+			<Button
+                Text="Inventory Management"
+                Clicked="InventoryClicked" />
+
+			<Button
+                Text="Shop"
+                Clicked="ShopClicked" />
+
+			<Button
+                Text="Configure Tax Rate"
+                Clicked="ConfigureTaxClicked" />
+		</VerticalStackLayout>
+	</ScrollView>
 
 </ContentPage>

@@ -21,6 +21,10 @@ namespace Maui.eCommerce
         {
             Shell.Current.GoToAsync("//ShoppingManagement");
         }
-    }
 
+		private async void ConfigureTaxClicked(object sender, EventArgs e)
+		{
+			await Shell.Current.GoToAsync("TaxSettingsPage");
+		}
+	}
 }
