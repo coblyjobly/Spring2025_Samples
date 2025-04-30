@@ -8,6 +8,8 @@ namespace Maui.eCommerce
         {
             InitializeComponent();
 			Routing.RegisterRoute("CheckoutPage", typeof(Maui.eCommerce.Views.CheckoutPage));
+			Routing.RegisterRoute("TaxSettingsPage", typeof(Maui.eCommerce.Views.TaxSettingsPage));
+
 		}
 	}
 }

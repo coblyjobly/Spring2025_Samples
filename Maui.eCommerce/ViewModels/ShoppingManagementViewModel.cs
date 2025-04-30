@@ -18,16 +18,6 @@ namespace Maui.eCommerce.ViewModels
        public Item? SelectedItem { get; set; }
        public Item? SelectedCartItem { get; set; }
 
-        public ObservableCollection<Item?> Inventory
-        {
-            get
-            {
-                return new ObservableCollection<Item?>(_invSvc.Products
-                    .Where(i => i?.Quantity > 0)
-                    );
-            }
-        }
-
         public ObservableCollection<Item?> ShoppingCart
         {
             get
@@ -84,5 +74,31 @@ namespace Maui.eCommerce.ViewModels
                 }
             }
         }
-    }
+		private string sortBy = "Name";
+		public string SortBy
+		{
+			get => sortBy;
+			set
+			{
+				sortBy = value;
+				NotifyPropertyChanged(nameof(Inventory));
+			}
+		}
+
+		public ObservableCollection<Item?> Inventory
+		{
+			get
+			{
+				var items = _invSvc.Products.Where(i => i?.Quantity > 0);
+
+				if (SortBy == "Price")
+					items = items.OrderBy(i => i?.Product?.Price);
+				else
+					items = items.OrderBy(i => i?.Product?.Name);
+
+				return new ObservableCollection<Item?>(items);
+			}
+		}
+
+	}
 }

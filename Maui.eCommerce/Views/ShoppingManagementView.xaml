@@ -3,78 +3,118 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Maui.eCommerce.Views.ShoppingManagementView"
              Title="ShoppingManagementView">
+
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*"/>
-			<!-- Product + Cart -->
 			<RowDefinition Height="Auto"/>
-			<!-- Checkout -->
+			<!-- Scrollable Store + Cart -->
+			<RowDefinition Height="Auto"/>
+			<!-- Tax + Checkout Buttons -->
 		</Grid.RowDefinitions>
 
-		<Grid Grid.Row="0" ColumnSpacing="10">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<!-- STORE -->
-				<ColumnDefinition/>
-				<!-- CART -->
-			</Grid.ColumnDefinitions>
+		<!-- STORE + CART SECTION -->
+		<ScrollView Grid.Row="0" Orientation="Vertical">
+			<HorizontalStackLayout Padding="10" Spacing="20">
 
-			<!-- STORE -->
-			<Grid Grid.Column="0">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="10*"/>
-					<RowDefinition Height="Auto"/>
-				</Grid.RowDefinitions>
+				<!-- STORE (Inventory List) -->
+				<VerticalStackLayout WidthRequest="400" Spacing="10">
+					<Label Text="Store Inventory" FontAttributes="Bold" FontSize="20"/>
 
-				<ListView Grid.Row="0"
-                      ItemsSource="{Binding Inventory}"
-                      SelectedItem="{Binding SelectedItem}">
-					<ListView.ItemTemplate>
-						<DataTemplate>
-							<ViewCell>
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition/>
-										<ColumnDefinition Width="5*"/>
-										<ColumnDefinition/>
-										<ColumnDefinition/>
-										<ColumnDefinition/>
-									</Grid.ColumnDefinitions>
-									<Label Grid.Column="0" Text="{Binding Id}" />
-									<Label Grid.Column="1" Text="{Binding Product.Name}" />
-									<Label Grid.Column="2" Text="x" />
-									<Label Grid.Column="3" Text="{Binding Quantity}" />
-									<Button Grid.Column="4" Text="+" Command="{Binding AddCommand}" Clicked="InlineAddClicked" />
-								</Grid>
-							</ViewCell>
-						</DataTemplate>
-					</ListView.ItemTemplate>
-				</ListView>
+					<!-- Sort Picker -->
+					<Picker Title="Sort By"
+                            SelectedItem="{Binding SortBy}"
+                            Margin="0,0,0,10">
+						<Picker.ItemsSource>
+							<x:Array Type="{x:Type x:String}">
+								<x:String>Name</x:String>
+								<x:String>Price</x:String>
+							</x:Array>
+						</Picker.ItemsSource>
+					</Picker>
 
-				<Button Grid.Row="1" Text="+" Clicked="AddToCartClicked" />
-			</Grid>
+					<!-- Store Inventory List -->
+					<ListView ItemsSource="{Binding Inventory}"
+                              SelectedItem="{Binding SelectedItem}"
+                              HeightRequest="400">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<ViewCell>
+									<Grid Padding="5">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition />
+											<!-- ID -->
+											<ColumnDefinition Width="5*" />
+											<!-- Name -->
+											<ColumnDefinition />
+											<!-- x -->
+											<ColumnDefinition />
+											<!-- Quantity -->
+											<ColumnDefinition Width="Auto"/>
+											<!-- Price -->
+											<ColumnDefinition Width="Auto"/>
+											<!-- Entry -->
+											<ColumnDefinition Width="Auto"/>
+											<!-- Add Button -->
+										</Grid.ColumnDefinitions>
 
-			<!-- USER SHOPPING CART -->
-			<Grid Grid.Column="1">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="10*"/>
-					<RowDefinition Height="Auto"/>
-				</Grid.RowDefinitions>
+										<Label Grid.Column="0" Text="{Binding Id}" />
+										<Label Grid.Column="1" Text="{Binding Product.Name}" />
+										<Label Grid.Column="2" Text="x" />
+										<Label Grid.Column="3" Text="{Binding Quantity}" />
 
-				<ListView Grid.Row="0"
-                      ItemsSource="{Binding ShoppingCart}"
-                      SelectedItem="{Binding SelectedCartItem}" />
-				<Button Grid.Row="1" Text="-" Clicked="RemoveFromCartClicked" />
-			</Grid>
-		</Grid>
+										<!-- Price -->
+										<Label Grid.Column="4"
+                                               Text="{Binding Product.Price, StringFormat='${0:F2}'}"
+                                               TextColor="DarkGreen"
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center" />
 
-		<!-- Checkout Button below both columns -->
-		<Button Grid.Row="1" Grid.ColumnSpan="2"
-            Text="Checkout"
-            BackgroundColor="Green"
-            TextColor="White"
-            Clicked="OnCheckoutClicked"
-            Margin="10" />
+										<!-- Quantity Entry -->
+										<Entry Grid.Column="5"
+                                               Text="{Binding AddQuantity}"
+                                               WidthRequest="50"
+                                               Keyboard="Numeric"
+                                               VerticalOptions="Center"/>
+
+										<!-- + Button -->
+										<Button Grid.Column="6"
+                                                Text="+"
+                                                Clicked="InlineAddClicked"
+                                                VerticalOptions="Center"/>
+									</Grid>
+								</ViewCell>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+
+					<!-- Optional: Global add button -->
+					<Button Text="+" Clicked="AddToCartClicked"/>
+				</VerticalStackLayout>
+
+				<!-- SHOPPING CART -->
+				<VerticalStackLayout WidthRequest="350" Spacing="10">
+					<Label Text="Shopping Cart" FontAttributes="Bold" FontSize="20"/>
+					<ListView ItemsSource="{Binding ShoppingCart}"
+                              SelectedItem="{Binding SelectedCartItem}"
+                              HeightRequest="400"/>
+					<Button Text="–" Clicked="RemoveFromCartClicked"/>
+				</VerticalStackLayout>
+
+			</HorizontalStackLayout>
+		</ScrollView>
+
+		<!-- TAX + CHECKOUT BUTTONS -->
+		<HorizontalStackLayout Grid.Row="1" Spacing="10" Margin="10">
+			<Button Text="Configure Tax Rate"
+                    Clicked="OnConfigureTaxClicked"
+                    HorizontalOptions="StartAndExpand"/>
+
+			<Button Text="Checkout"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    Clicked="OnCheckoutClicked"
+                    HorizontalOptions="EndAndExpand"/>
+		</HorizontalStackLayout>
 	</Grid>
 
 </ContentPage>

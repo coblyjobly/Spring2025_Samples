@@ -51,5 +51,16 @@ namespace Library.eCommerce.Models
 
             AddCommand = new Command(DoAdd);
         }
-    }
+
+		public int AddQuantity { get; set; } = 1;
+
+		public ICommand AddMultipleCommand => new Command(() =>
+		{
+			for (int i = 0; i < AddQuantity; i++)
+			{
+				ShoppingCartService.Current.AddOrUpdate(this);
+			}
+		});
+
+	}
 }
